@@ -1,4 +1,5 @@
  Erik Hansen, 26.08.2020
+ 
  The following codes compute the pressure equilibrium when a flat rigid plane is loaded against an ideal elastic-plastic profile. The profile deformation is computed with the elastic half-space model. Subsurface plastic deformation is neglected, only plastic flow on the surface is taken into account. Outside of the contact zone, a constant hydrodynamic pressure can be prescribed. This pressure also serves as a lower limit for the pressure in the contact zone.
  The codes denoted with akchurin compute the pressure profile based on an imposed rigid body seperation h_s.
  The codes denoted with polonsky compute the pressure profile based on an imposed normal load force W_aim.

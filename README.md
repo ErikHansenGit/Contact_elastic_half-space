@@ -15,3 +15,5 @@
  The codes denoted with linear use a linear convolution to determine the elastic deformation due to the pressure profile. Use this e.g. for single concentrated contacts.
  
  The codes denoted with circular use a circular convolution to determine the elastic deformation due to the pressure profile. This corresponds to periodic boundary conditions. Use this e.g. for periodic roughness profiles.
+
+This code  is free to use by anyone. Still, citing this repository is greatly appreciated if it is of use to your work.

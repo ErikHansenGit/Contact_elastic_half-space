@@ -130,7 +130,7 @@ figure('Units','centimeters','Position',[25 13 7 7])
 surf(geo.x1,geo.x2,z_elpl')
 xlabel('x_1 [m]')
 ylabel('x_2 [m]')
-zlabel('h_{pl} [m]')
+zlabel('z_{elpl} [m]')
 title('Deformed profile')
 shading interp
 material dull
@@ -159,7 +159,7 @@ surf(geo.x1,geo.x2,g')
 xlabel('x_1 [m]')
 ylabel('x_2 [m]')
 zlabel('g [m]')
-title({'Residual'; '{\itAim in hydrodynamic region: g<0}'; '{\itAim in elastic region: g=0}'; '{\itAim in plastic region: g>0}'})
+title({'Residual'; '{\itAim in hydrodynamic region: g<=0}'; '{\itAim in elastic region: g=0}'; '{\itAim in plastic region: g>=0}'})
 shading interp
 material dull
 colormap(colmap)
@@ -200,7 +200,6 @@ function [p_con,g,err] = elpl_contact_pressure_polonsky_circular(p_min,H,z,W_aim
 % g                 [m]     residual of the gap height distribution
 % err               [-]     relative error
 % -------------------------------------------------------------------------
-G_ref  = h_ref^2;                               % [m^2] reference norm of the residual
 p_con = W_aim/(Nx1*dx1*Nx2*dx2)*ones(Nx1,Nx2);  % [Pa] pressure field
 [u] = compute_h_el_circular(p_con,Nx1,Nx2,fft2_Kernel_circ);  % [m] elastic deformation 
 g = -u + z;                                     % [m] residual of the gap height distribution
@@ -218,8 +217,8 @@ clear g_mean;
 % domain due to the pressure distribution. Non-contact and plastic points 
 % are also evaluated whether they are correctly or not in surface contact
 % due to the gap height distribution
-A_nc_cr = find(p_con<=p_min &g<0);
-A_nc_wr = find(p_con<=p_min &g>=0);
+A_nc_cr = find(p_con<=p_min &g<=0);
+A_nc_wr = find(p_con<=p_min &g>0);
 A_pl_cr = find(p_con>=H     &g>=0);
 A_pl_wr = find(p_con>=H     &g<0);
 % Within these points, the pressure distribution needs to be adjusted:
@@ -284,8 +283,8 @@ while i_it == 0 || (err(i_it)>err_tol && i_it<=it_max)
     % domain due to the pressure distribution. Non-contact and plastic points 
     % are also evaluated whether they are correctly or not in surface contact
     % due to the gap height distribution
-    A_nc_cr = find(p_con<=p_min &g<0);
-    A_nc_wr = find(p_con<=p_min &g>=0);
+    A_nc_cr = find(p_con<=p_min &g<=0);
+    A_nc_wr = find(p_con<=p_min &g>0);
     A_pl_cr = find(p_con>=H     &g>=0);
     A_pl_wr = find(p_con>=H     &g<0);
     % Within these points, the pressure distribution needs to be adjusted:
@@ -303,7 +302,7 @@ while i_it == 0 || (err(i_it)>err_tol && i_it<=it_max)
     % Compute norm of the residual:
     G = sum(g(A_free).*g(A_free));
     % Compute relative error
-    err(i_it) = abs(G - G_old)/G_ref;
+    err(i_it) = sqrt(G)/h_ref;
 end
 % Resize err:
 err = err(1:i_it,1);

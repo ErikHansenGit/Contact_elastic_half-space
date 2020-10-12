@@ -207,7 +207,7 @@ delta = 0;                      % [-] flag whether to use conjugate gradient or 
 err = zeros(it_max,1);          % [-] relative error
 i_it=0;                         % [-] iteration counter        
 t = zeros(Nx1,Nx2);             % [Pa] search direction
-while i_it == 0 || (err(i_it)>err_tol && i_it<=it_max)
+while i_it == 0 || (err(i_it)>err_tol && i_it<it_max)
     i_it = i_it + 1;    
     
     % Find search direction:

@@ -170,8 +170,10 @@ clear KIT_colorlist; clear colmap; clear widthlines;
 function [p_con,g,err] = elpl_contact_pressure_polonsky_circular(p_min,H,z,W_aim,Nx1,Nx2,dx1,dx2,fft2_Kernel_circ,err_tol,it_max,h_ref)
 % Erik Hansen, 26.08.2020
 % Calculates the contact pressure occuring when a rigid smooth surface is
-% loaded against an elastic half-space with ideal elastic-plastic material
-% behaviour. The code is very similar to and consists largely of the 
+% loaded against an elastic half-space. The minimum and maximum contact pressures can be set to limiting values. Subsurface plastic flow within the half-space is not modelled.
+% It is assumed that plastic flow only occures on the the half-space's surface if the maximum contact pressure is reached.
+% The profile deformation is computed with the elastic half-space model using the Boundary Element Method (BEM).
+% The code is very similar to and consists largely of the 
 % algorithm described Polonsky and Keer, 1999:
 % "A numerical method for solving rough contact problems based on the multi-level multi-summation and conjugate gradient techniques"
 % and Akchurin et al., 2015:

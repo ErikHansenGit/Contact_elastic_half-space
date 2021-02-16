@@ -321,7 +321,7 @@ function [h_el] = compute_h_el_circular(p,Nx1,Nx2,fft2_Kernel_circ)
 % h_el              [m]         elastic deformation
 % -------------------------------------------------------------------------
 % Compute convolution in Fourier space for better pefromance:
-h_el            = ifft2(fft2_Kernel_circ.*fft2(p));
+h_el            = real(ifft2(fft2_Kernel_circ.*fft2(p)));
 end
 
 function [fft2_Kernel_circ]  = construct_circular_Kernel(Nx1,Nx2,dx1,dx2,E_dash)

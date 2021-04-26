@@ -264,7 +264,7 @@ function [h_el] = compute_h_el_circular(p,Nx1,Nx2,fft2_Kernel_circ)
 % p                 [Pa]        pressure field
 % Nx1               [-]         number of discretized points in x1-direction
 % Nx2               [-]       	number of discretized points in x2-direction
-% fft2_Kernel_circ  [m/Pa]      2-D fast Fourier transform of the Kernel
+% fft2_Kernel_circ  [?]         2-D fast Fourier transform of the Kernel
 % Output:
 % h_el              [m]         elastic deformation
 % -------------------------------------------------------------------------
@@ -275,10 +275,9 @@ end
 function [fft2_Kernel_circ]  = construct_circular_Kernel(Nx1,Nx2,dx1,dx2,E_dash)
 % Calculates the Kernel function for a circular convolution in the
 % influence area of size Nx1*Nx2
-% The Kernel is constructed for an imposed normal load as explained by Pohrt and Li, 2014:
-% "Complete boundary element formulation for normal and tangential contact problems"
-% under the assumption of isotropic material behaviour and therefore 
-% sld.E = 2*(sld.nu + 1)*sld.G
+% The Kernel is constructed for an imposed normal load pressure as explained by 
+% Johnson, K. L., 2004. Contact mechanics. Cambridge: Cambridge University Press
+% in equation (3.25) on P.54
 % and the definition of 
 % sld.E_dash = 2/((1 - sld.nu_low^2)/sld.E_low + (1 - sld.nu_up^2)/sld.E_up).
 % The Kernel center is at the edge of the domain
@@ -289,7 +288,7 @@ function [fft2_Kernel_circ]  = construct_circular_Kernel(Nx1,Nx2,dx1,dx2,E_dash)
 % dx2                 [m]       Length of discretized cell in x2-direction
 % E_dash              [Pa]      reduced modulus of elasticity
 % Output:
-% fft2_Kernel_circ    [m/Pa]    2-D fast Fourier transform of the Kernel
+% fft2_Kernel_circ    [?]       2-D fast Fourier transform of the Kernel
 % -------------------------------------------------------------------------
 Nx1_K = Nx1;      % [-]       Number of discretized Kernel points in x1-direction
 Nx2_K = Nx2;      % [-]       Number of discretized Kernel points in x2-direction
@@ -298,11 +297,11 @@ dx2_mod = dx2/2;
 % Determine distances:
 i           = 1:Nx1_K;
 j           = 1:Nx2_K;
-i_cond      = (i <= floor(Nx1_K/2) + 1);
-x1          = (((floor(Nx1_K/2) + 1) - (i - (ceil(Nx1_K/2) + 1))) - 1)*dx1;
+i_cond      = (i <= floor(Nx1_K/2));
+x1          = -(((floor(Nx1_K/2) + 1) - (i - (ceil(Nx1_K/2) + 1))) - 1)*dx1;
 x1(i_cond)  = (i(i_cond) - 1)*dx1;
-j_cond      = (j <= floor(Nx2_K/2) + 1);
-x2          = (((floor(Nx2_K/2) + 1) - (j - (ceil(Nx2_K/2) + 1))) - 1)*dx2;
+j_cond      = (j <= floor(Nx2_K/2));
+x2          = -(((floor(Nx2_K/2) + 1) - (j - (ceil(Nx2_K/2) + 1))) - 1)*dx2;
 x2(j_cond)  = (j(j_cond) - 1)*dx2;
 clear i; clear j; clear i_cond; clear j_cond;
 clear Nx1; clear Nx2; clear dx1; clear dx2;

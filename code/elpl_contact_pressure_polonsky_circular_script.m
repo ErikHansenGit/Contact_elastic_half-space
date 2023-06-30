@@ -139,7 +139,7 @@ camlight
 
 figure('Units','centimeters','Position',[01 00 7 7])
 semilogy(err,'LineWidth',widthlines,'Color',KIT_colorlist{1})
-xlabel('i_{it} [m]')
+xlabel('i_{it} [-]')
 ylabel('err [-]')
 title('Relative error')
 
@@ -147,7 +147,7 @@ figure('Units','centimeters','Position',[11 00 7 7])
 surf(geo.x1,geo.x2,p_con')
 xlabel('x_1 [m]')
 ylabel('x_2 [m]')
-zlabel('p_{con} [m]')
+zlabel('p_{con} [Pa]')
 title('Contact pressure')
 shading interp
 material dull
@@ -271,7 +271,7 @@ while i_it == 0 || (err(i_it)>err_tol && i_it<it_max)
     % distribution:
     A_el    = find(p_con>p_min  &p_con<H);
     
-    % Compute elsatic deformation to find new residual of the gap height distribution
+    % Compute elastic deformation to find new residual of the gap height distribution
     [u] = compute_h_el_circular(p_con,Nx1,Nx2,fft2_Kernel_circ); 
     g = -u + z;
     clear u;
@@ -292,7 +292,7 @@ while i_it == 0 || (err(i_it)>err_tol && i_it<it_max)
     % Within these points, the pressure distribution needs to be adjusted:
     A_free = union(union(A_el,A_nc_wr),A_pl_wr);
     
-    % Determine whether to use conjugate gradient or steepest descend in the next ieration
+    % Determine whether to use conjugate gradient or steepest descend in the next iteration
     if isempty(A_nc_wr) && isempty(A_pl_wr)
     	delta = 1;
     else

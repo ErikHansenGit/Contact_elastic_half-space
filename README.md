@@ -16,3 +16,5 @@ The following MATLAB codes compute the pressure-deformation equilibrium when a f
 This code  is free to use by anyone. Still, citing this repository is greatly appreciated if it is of use to your work.
 
 Erik Hansen, 07.09.2020
+
+This research was funded by Deutsche Forschungsgemeinschaft (DFG) Project Number 438122912.
